@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,6 +17,8 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
 
     <style>
       /* ===== RESET & VARIABLES ===== */
@@ -110,7 +112,7 @@
         border-radius: 10px;
       }
 
-      /* ===== HERO / JUMBOTRON ===== */
+      /* ===== HERO ===== */
       .hero {
         min-height: 100vh;
         display: flex;
@@ -133,23 +135,6 @@
         pointer-events: none;
       }
 
-      .hero::after {
-        content: '';
-        position: absolute;
-        bottom: -30%;
-        left: -10%;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(108, 92, 231, 0.05) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-      }
-
-      .hero .container {
-        position: relative;
-        z-index: 2;
-      }
-
       .hero-avatar {
         width: 180px;
         height: 180px;
@@ -158,6 +143,7 @@
         border: 4px solid var(--white);
         box-shadow: 0 20px 60px rgba(13, 110, 253, 0.2);
         transition: var(--transition);
+        cursor: pointer;
       }
 
       .hero-avatar:hover {
@@ -185,10 +171,6 @@
         font-weight: 400;
         max-width: 500px;
         margin: 12px auto 0;
-      }
-
-      .hero .badge-group {
-        margin-top: 20px;
       }
 
       .hero .badge-group .badge {
@@ -264,7 +246,7 @@
         transform: translateY(-3px);
       }
 
-      /* ===== SECTION COMMON ===== */
+      /* ===== SECTION ===== */
       section {
         padding: 80px 0;
       }
@@ -344,6 +326,7 @@
         background: var(--white);
         border: 1px solid rgba(0, 0, 0, 0.04);
         height: 100%;
+        cursor: pointer;
       }
 
       .project-card:hover {
@@ -351,15 +334,44 @@
         box-shadow: var(--shadow-hover);
       }
 
-      .project-card img {
-        width: 100%;
+      .project-card .project-img-wrapper {
+        overflow: hidden;
         height: 220px;
+        position: relative;
+      }
+
+      .project-card .project-img-wrapper img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         transition: var(--transition);
       }
 
-      .project-card:hover img {
-        transform: scale(1.03);
+      .project-card:hover .project-img-wrapper img {
+        transform: scale(1.05);
+      }
+
+      .project-card .project-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(13, 110, 253, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .project-card:hover .project-overlay {
+        opacity: 1;
+      }
+
+      .project-card .project-overlay i {
+        font-size: 2.5rem;
+        color: var(--white);
       }
 
       .project-card .card-body {
@@ -402,6 +414,7 @@
         transition: var(--transition);
         border: 1px solid rgba(0, 0, 0, 0.04);
         height: 100%;
+        cursor: pointer;
       }
 
       .cert-card:hover {
@@ -409,10 +422,44 @@
         box-shadow: var(--shadow-hover);
       }
 
-      .cert-card img {
-        width: 100%;
+      .cert-card .cert-img-wrapper {
+        overflow: hidden;
         height: 180px;
+        position: relative;
+      }
+
+      .cert-card .cert-img-wrapper img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
+        transition: var(--transition);
+      }
+
+      .cert-card:hover .cert-img-wrapper img {
+        transform: scale(1.05);
+      }
+
+      .cert-card .cert-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(13, 110, 253, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .cert-card:hover .cert-overlay {
+        opacity: 1;
+      }
+
+      .cert-card .cert-overlay i {
+        font-size: 2.5rem;
+        color: var(--white);
       }
 
       .cert-card .card-body {
@@ -429,13 +476,6 @@
         color: var(--gray);
         font-size: 0.8rem;
         margin-bottom: 12px;
-      }
-
-      .cert-card .btn-outline-primary {
-        border-radius: 50px;
-        font-size: 0.8rem;
-        padding: 6px 18px;
-        border-width: 1.5px;
       }
 
       /* ===== CONTACT ===== */
@@ -512,6 +552,31 @@
         background: var(--primary-dark);
         transform: translateY(-2px);
         box-shadow: 0 12px 40px rgba(13, 110, 253, 0.35);
+      }
+
+      /* ===== LIGHTBOX CUSTOM ===== */
+      .ekko-lightbox-nav-overlay a {
+        color: var(--white) !important;
+        opacity: 0.8;
+        transition: var(--transition);
+      }
+
+      .ekko-lightbox-nav-overlay a:hover {
+        opacity: 1;
+      }
+
+      .ekko-lightbox .modal-dialog {
+        max-width: 90vw;
+      }
+
+      .ekko-lightbox .modal-content {
+        border-radius: var(--radius);
+        background: transparent;
+        border: none;
+      }
+
+      .ekko-lightbox .modal-body {
+        padding: 10px;
       }
 
       /* ===== FOOTER ===== */
@@ -599,6 +664,12 @@
           padding: 10px 24px;
           font-size: 0.85rem;
         }
+        .project-card .project-img-wrapper {
+          height: 180px;
+        }
+        .cert-card .cert-img-wrapper {
+          height: 150px;
+        }
       }
 
       @media (max-width: 576px) {
@@ -608,16 +679,10 @@
         .navbar-brand {
           font-size: 1.2rem;
         }
-        .project-card img {
-          height: 180px;
-        }
-        .cert-card img {
-          height: 150px;
-        }
       }
     </style>
 
-    <title>Markus Paru | Professional Portfolio</title>
+    <title>Markus Paru | Portfolio Profesional</title>
   </head>
   <body>
 
@@ -630,11 +695,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-            <li class="nav-item"><a class="nav-link" href="#certificates">Certificates</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#home">Beranda</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
+            <li class="nav-item"><a class="nav-link" href="#projects">Proyek</a></li>
+            <li class="nav-item"><a class="nav-link" href="#certificates">Sertifikat</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
           </ul>
         </div>
       </div>
@@ -645,15 +710,17 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-8 mx-auto text-center" data-aos="fade-up" data-aos-duration="1000">
-            <img src="img/M@copollo.jpg" alt="Markus Paru" class="hero-avatar" />
-            <h1>Hi, I'm <span class="highlight">Markus Paru</span></h1>
-            <p class="lead">Lecturer &amp; Content Creator</p>
+            <a href="img/M@copollo.jpg" data-toggle="lightbox" data-title="Markus Paru" data-gallery="profile">
+              <img src="img/M@copollo.jpg" alt="Markus Paru" class="hero-avatar" />
+            </a>
+            <h1>Halo, Saya <span class="highlight">Markus Paru</span></h1>
+            <p class="lead">Dosen | Pengajar &amp; Content Creator</p>
 
             <div class="badge-group">
-              <span class="badge">🎓 Lecturer</span>
-              <span class="badge">📚 Researcher</span>
+              <span class="badge">🎓 Dosen</span>
+              <span class="badge">📚 Peneliti</span>
               <span class="badge">🎥 Content Creator</span>
-              <span class="badge">🌏 Public Speaker</span>
+              <span class="badge">🌏 Pembicara Publik</span>
             </div>
 
             <div class="social-links">
@@ -661,12 +728,12 @@
               <a href="https://www.youtube.com/@markusparu334" target="_blank" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
               <a href="https://twitter.com/Markus30589688" target="_blank" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
               <a href="https://web.whatsapp.com//k/" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
-              <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" aria-label="Email"><i class="bi bi-envelope"></i></a>
+              <a href="mailto:markusrosalia@gmail.com" target="_blank" aria-label="Email"><i class="bi bi-envelope"></i></a>
             </div>
 
             <div class="cta-buttons">
-              <a href="#contact" class="btn btn-primary">Get In Touch</a>
-              <a href="#projects" class="btn btn-outline-primary">View My Work</a>
+              <a href="#contact" class="btn btn-primary">Hubungi Saya</a>
+              <a href="#projects" class="btn btn-outline-primary">Lihat Karya</a>
             </div>
           </div>
         </div>
@@ -678,30 +745,30 @@
       <div class="container">
         <div class="row text-center" data-aos="fade-up">
           <div class="col">
-            <h2 class="section-title">About <span class="highlight">Me</span></h2>
-            <p class="section-subtitle">Passionate educator dedicated to empowering others through knowledge and creativity</p>
+            <h2 class="section-title">Tentang <span class="highlight">Saya</span></h2>
+            <p class="section-subtitle">Pendidik yang berdedikasi untuk memberdayakan orang lain melalui ilmu pengetahuan dan kreativitas</p>
           </div>
         </div>
         <div class="row g-4">
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
             <div class="about-card text-center">
               <span class="icon"><i class="bi bi-mortarboard-fill"></i></span>
-              <h5>Academic Excellence</h5>
-              <p>Committed to delivering quality education and fostering critical thinking in every student I mentor.</p>
+              <h5>Keunggulan Akademik</h5>
+              <p>Berkomitmen memberikan pendidikan berkualitas dan mengembangkan pemikiran kritis pada setiap mahasiswa yang saya bimbing.</p>
             </div>
           </div>
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
             <div class="about-card text-center">
               <span class="icon"><i class="bi bi-lightbulb-fill"></i></span>
-              <h5>Creative Innovation</h5>
-              <p>Blending traditional teaching methods with modern technology to create engaging learning experiences.</p>
+              <h5>Inovasi Kreatif</h5>
+              <p>Menggabungkan metode pengajaran tradisional dengan teknologi modern untuk menciptakan pengalaman belajar yang menarik.</p>
             </div>
           </div>
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
             <div class="about-card text-center">
               <span class="icon"><i class="bi bi-people-fill"></i></span>
-              <h5>Community Impact</h5>
-              <p>Building bridges between education and community development through collaborative initiatives.</p>
+              <h5>Dampak Komunitas</h5>
+              <p>Membangun jembatan antara pendidikan dan pengembangan masyarakat melalui inisiatif kolaboratif.</p>
             </div>
           </div>
         </div>
@@ -713,74 +780,104 @@
       <div class="container">
         <div class="row text-center" data-aos="fade-up">
           <div class="col">
-            <h2 class="section-title">Featured <span class="highlight">Projects</span></h2>
-            <p class="section-subtitle">A curated selection of my work and academic contributions</p>
+            <h2 class="section-title">Proyek <span class="highlight">Unggulan</span></h2>
+            <p class="section-subtitle">Kurasi dari karya dan kontribusi akademik saya</p>
           </div>
         </div>
         <div class="row g-4">
           <!-- Project 1 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="project-card">
-              <img src="img/projects/IMG_20230301_103128.jpg" alt="Project 1" />
+            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Penelitian & Inovasi" data-footer="Eksplorasi teknologi pendidikan modern">
+              <div class="project-img-wrapper">
+                <img src="img/projects/IMG_20230301_103128.jpg" alt="Proyek Penelitian" />
+                <div class="project-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
-                <h5 class="card-title">Research &amp; Innovation</h5>
-                <p class="card-text">Exploring new frontiers in educational technology and pedagogy.</p>
-                <span class="project-tag">Research</span>
+                <h5 class="card-title">Penelitian &amp; Inovasi</h5>
+                <p class="card-text">Mengeksplorasi batas-batas baru dalam teknologi pendidikan dan pedagogi.</p>
+                <span class="project-tag">Penelitian</span>
               </div>
             </div>
           </div>
           <!-- Project 2 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="project-card">
-              <img src="img/projects/IMG_20230301_104521.jpg" alt="Project 2" />
+            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Workshop Komunitas" data-footer="Memberdayakan masyarakat melalui berbagi pengetahuan">
+              <div class="project-img-wrapper">
+                <img src="img/projects/IMG_20230301_104521.jpg" alt="Workshop Komunitas" />
+                <div class="project-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
-                <h5 class="card-title">Community Workshop</h5>
-                <p class="card-text">Empowering local communities through knowledge-sharing sessions.</p>
-                <span class="project-tag">Community</span>
+                <h5 class="card-title">Workshop Komunitas</h5>
+                <p class="card-text">Memberdayakan masyarakat lokal melalui sesi berbagi pengetahuan dan keterampilan.</p>
+                <span class="project-tag">Komunitas</span>
               </div>
             </div>
           </div>
           <!-- Project 3 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="project-card">
-              <img src="img/projects/IMG_20230505_185154.jpg" alt="Project 3" />
+            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Konten Digital" data-footer="Membuat konten edukasi untuk platform online">
+              <div class="project-img-wrapper">
+                <img src="img/projects/IMG_20230505_185154.jpg" alt="Konten Digital" />
+                <div class="project-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
-                <h5 class="card-title">Digital Content Creation</h5>
-                <p class="card-text">Producing engaging educational content for online platforms.</p>
-                <span class="project-tag">Content</span>
+                <h5 class="card-title">Konten Digital</h5>
+                <p class="card-text">Memproduksi konten edukasi yang menarik untuk berbagai platform online.</p>
+                <span class="project-tag">Konten</span>
               </div>
             </div>
           </div>
           <!-- Project 4 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="150">
-            <div class="project-card">
-              <img src="img/projects/IMG_20230302_100506.jpg" alt="Project 4" />
+            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Konferensi Akademik" data-footer="Mempresentasikan hasil penelitian di forum internasional">
+              <div class="project-img-wrapper">
+                <img src="img/projects/IMG_20230302_100506.jpg" alt="Konferensi Akademik" />
+                <div class="project-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
-                <h5 class="card-title">Academic Conference</h5>
-                <p class="card-text">Presenting research findings at international academic forums.</p>
-                <span class="project-tag">Academics</span>
+                <h5 class="card-title">Konferensi Akademik</h5>
+                <p class="card-text">Mempresentasikan hasil penelitian di forum akademik internasional.</p>
+                <span class="project-tag">Akademik</span>
               </div>
             </div>
           </div>
           <!-- Project 5 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="250">
-            <div class="project-card">
-              <img src="img/projects/IMG_20230321_110856.jpg" alt="Project 5" />
+            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Publikasi & Penulisan" data-footer="Menulis artikel tentang pendidikan dan masyarakat">
+              <div class="project-img-wrapper">
+                <img src="img/projects/IMG_20230321_110856.jpg" alt="Publikasi" />
+                <div class="project-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
-                <h5 class="card-title">Publication &amp; Writing</h5>
-                <p class="card-text">Authoring articles and publications on education and society.</p>
-                <span class="project-tag">Writing</span>
+                <h5 class="card-title">Publikasi &amp; Penulisan</h5>
+                <p class="card-text">Menulis artikel dan publikasi tentang pendidikan dan isu sosial.</p>
+                <span class="project-tag">Penulisan</span>
               </div>
             </div>
           </div>
           <!-- Project 6 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="350">
-            <div class="project-card">
-              <img src="img/projects/IMG_20230321_110831.jpg" alt="Project 6" />
+            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Program Mentoring" data-footer="Membimbing generasi pendidik dan pemimpin masa depan">
+              <div class="project-img-wrapper">
+                <img src="img/projects/IMG_20230321_110831.jpg" alt="Mentoring" />
+                <div class="project-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
-                <h5 class="card-title">Mentorship Program</h5>
-                <p class="card-text">Guiding the next generation of educators and leaders.</p>
-                <span class="project-tag">Mentorship</span>
+                <h5 class="card-title">Program Mentoring</h5>
+                <p class="card-text">Membimbing generasi pendidik dan pemimpin masa depan.</p>
+                <span class="project-tag">Mentoring</span>
               </div>
             </div>
           </div>
@@ -793,74 +890,98 @@
       <div class="container">
         <div class="row text-center" data-aos="fade-up">
           <div class="col">
-            <h2 class="section-title">Professional <span class="highlight">Certificates</span></h2>
-            <p class="section-subtitle">Credentials and recognitions from various institutions</p>
+            <h2 class="section-title">Sertifikat <span class="highlight">Profesional</span></h2>
+            <p class="section-subtitle">Sertifikasi dan pengakuan dari berbagai institusi</p>
           </div>
         </div>
         <div class="row g-4">
           <!-- Certificate 1 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="cert-card">
-              <img src="img/sertifikat/sertifikat.jpg" alt="Certificate" />
+            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Keychron K2" data-footer="Sertifikasi profesional dalam metodologi pengajaran modern">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat.jpg" alt="Sertifikat Keychron K2" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
                 <h5 class="card-title">Keychron K2</h5>
-                <p class="card-text">Professional certification in modern teaching methodologies.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                <p class="card-text">Sertifikasi profesional dalam metodologi pengajaran modern.</p>
               </div>
             </div>
           </div>
           <!-- Certificate 2 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="cert-card">
-              <img src="img/sertifikat/sertifikat1.jpg" alt="Certificate" />
+            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Womier RGB" data-footer="Pelatihan lanjutan dalam integrasi teknologi pendidikan">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat1.jpg" alt="Sertifikat Womier RGB" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
                 <h5 class="card-title">Womier RGB</h5>
-                <p class="card-text">Advanced training in educational technology integration.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                <p class="card-text">Pelatihan lanjutan dalam integrasi teknologi pendidikan.</p>
               </div>
             </div>
           </div>
           <!-- Certificate 3 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="cert-card">
-              <img src="img/sertifikat/sertifikat2.png" alt="Certificate" />
+            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Red Dragon" data-footer="Kepemimpinan dan manajemen di pendidikan tinggi">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat2.png" alt="Sertifikat Red Dragon" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
                 <h5 class="card-title">Red Dragon</h5>
-                <p class="card-text">Leadership and management in higher education.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                <p class="card-text">Kepemimpinan dan manajemen di pendidikan tinggi.</p>
               </div>
             </div>
           </div>
           <!-- Certificate 4 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="150">
-            <div class="cert-card">
-              <img src="img/sertifikat/sertifikat3.png" alt="Certificate" />
+            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Metodologi Penelitian" data-footer="Pelatihan khusus dalam metodologi penelitian">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat3.png" alt="Sertifikat Metodologi Penelitian" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
                 <h5 class="card-title">Red Dragon</h5>
-                <p class="card-text">Specialized training in research methodology.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                <p class="card-text">Pelatihan khusus dalam metodologi penelitian.</p>
               </div>
             </div>
           </div>
           <!-- Certificate 5 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="250">
-            <div class="cert-card">
-              <img src="img/sertifikat/sertifikat4.jpeg" alt="Certificate" />
+            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Literasi Digital" data-footer="Sertifikasi literasi digital dan pendidikan online">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat4.jpeg" alt="Sertifikat Literasi Digital" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
                 <h5 class="card-title">Red Dragon</h5>
-                <p class="card-text">Digital literacy and online education certification.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                <p class="card-text">Literasi digital dan sertifikasi pendidikan online.</p>
               </div>
             </div>
           </div>
           <!-- Certificate 6 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="350">
-            <div class="cert-card">
-              <img src="img/sertifikat/sertifikat5.jpeg" alt="Certificate" />
+            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Komunikasi" data-footer="Keunggulan dalam komunikasi dan berbicara di depan umum">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat5.jpeg" alt="Sertifikat Komunikasi" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                </div>
+              </div>
               <div class="card-body">
                 <h5 class="card-title">Red Dragon</h5>
-                <p class="card-text">Communication and public speaking excellence.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                <p class="card-text">Keunggulan dalam komunikasi dan berbicara di depan umum.</p>
               </div>
             </div>
           </div>
@@ -873,15 +994,15 @@
       <div class="container">
         <div class="row text-center" data-aos="fade-up">
           <div class="col">
-            <h2 class="section-title">Get In <span class="highlight">Touch</span></h2>
-            <p class="section-subtitle">Have a question or want to collaborate? Let's connect.</p>
+            <h2 class="section-title">Hubungi <span class="highlight">Saya</span></h2>
+            <p class="section-subtitle">Ada pertanyaan atau ingin berkolaborasi? Mari terhubung.</p>
           </div>
         </div>
         <div class="row g-4">
           <div class="col-lg-5" data-aos="fade-right" data-aos-delay="100">
             <div class="contact-info">
-              <h4>Let's Talk</h4>
-              <p>I'm always open to new opportunities, collaborations, and meaningful conversations.</p>
+              <h4>Mari Bicara</h4>
+              <p>Saya selalu terbuka untuk peluang baru, kolaborasi, dan percakapan yang bermakna.</p>
               <div class="contact-item">
                 <i class="bi bi-envelope"></i>
                 <span>markusrosalia@gmail.com</span>
@@ -907,26 +1028,26 @@
           <div class="col-lg-7" data-aos="fade-left" data-aos-delay="200">
             <div class="contact-form">
               <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
-                <strong>Thank You!</strong> Your message has been received. I'll get back to you soon.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>Terima Kasih!</strong> Pesan Anda telah kami terima. Kami akan segera menghubungi Anda.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
               </div>
               <form name="wpu-contact-form">
                 <div class="mb-3">
-                  <label for="name" class="form-label fw-semibold">Full Name</label>
-                  <input type="text" class="form-control" id="name" name="nama" placeholder="Your full name" required />
+                  <label for="name" class="form-label fw-semibold">Nama Lengkap</label>
+                  <input type="text" class="form-control" id="name" name="nama" placeholder="Nama lengkap Anda" required />
                 </div>
                 <div class="mb-3">
-                  <label for="email" class="form-label fw-semibold">Email Address</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="your@email.com" required />
+                  <label for="email" class="form-label fw-semibold">Alamat Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="email@anda.com" required />
                 </div>
                 <div class="mb-3">
-                  <label for="pesan" class="form-label fw-semibold">Message</label>
-                  <textarea class="form-control" id="pesan" rows="4" name="pesan" placeholder="Write your message here..." required></textarea>
+                  <label for="pesan" class="form-label fw-semibold">Pesan</label>
+                  <textarea class="form-control" id="pesan" rows="4" name="pesan" placeholder="Tulis pesan Anda di sini..." required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary btn-kirim">Send Message <i class="bi bi-arrow-right ms-2"></i></button>
+                <button type="submit" class="btn btn-primary btn-kirim">Kirim Pesan <i class="bi bi-arrow-right ms-2"></i></button>
                 <button class="btn btn-primary btn-loading d-none" type="button" disabled>
                   <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                  Sending...
+                  Mengirim...
                 </button>
               </form>
             </div>
@@ -941,14 +1062,14 @@
         <div class="row align-items-center text-center text-md-start">
           <div class="col-md-4 mb-3 mb-md-0">
             <div class="brand">Markus<span class="highlight">Paru</span></div>
-            <p class="mt-2" style="font-size:0.8rem; opacity:0.6;">Lecturer &amp; Content Creator</p>
+            <p class="mt-2" style="font-size:0.8rem; opacity:0.6;">Dosen &amp; Content Creator</p>
           </div>
           <div class="col-md-4 mb-3 mb-md-0">
             <div class="footer-links">
-              <a href="#home">Home</a>
-              <a href="#about">About</a>
-              <a href="#projects">Projects</a>
-              <a href="#contact">Contact</a>
+              <a href="#home">Beranda</a>
+              <a href="#about">Tentang</a>
+              <a href="#projects">Proyek</a>
+              <a href="#contact">Kontak</a>
             </div>
           </div>
           <div class="col-md-4">
@@ -959,7 +1080,7 @@
               <a href="https://web.whatsapp.com//k/" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
             </div>
             <p class="mt-2" style="font-size:0.75rem; opacity:0.5;">
-              &copy; 2025 Markus Paru. All rights reserved.
+              &copy; 2025 Markus Paru. Hak Cipta Dilindungi.
             </p>
           </div>
         </div>
@@ -971,6 +1092,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 
     <script>
       // ===== AOS =====
@@ -989,6 +1111,45 @@
       gsap.from('.hero .social-links', { delay: 1.0, duration: 1, opacity: 0, y: 20, ease: 'power3.out' });
       gsap.from('.hero .cta-buttons', { delay: 1.2, duration: 1, opacity: 0, y: 20, ease: 'power3.out' });
       gsap.from('.navbar', { duration: 1, opacity: 0, y: -100, ease: 'bounce.out' });
+
+      // ===== Lightbox =====
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('[data-toggle="lightbox"]')) {
+          e.preventDefault();
+          const element = e.target.closest('[data-toggle="lightbox"]');
+          const imgSrc = element.querySelector('img')?.src || element.href || element.dataset.src;
+          const title = element.dataset.title || '';
+          const footer = element.dataset.footer || '';
+
+          if (imgSrc) {
+            const lightbox = document.createElement('div');
+            lightbox.className = 'modal fade ekko-lightbox';
+            lightbox.setAttribute('tabindex', '-1');
+            lightbox.innerHTML = `
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <div class="ekko-lightbox-container">
+                      <img src="${imgSrc}" alt="${title}" style="width:100%;border-radius:8px;" />
+                    </div>
+                    ${title ? `<div class="ekko-lightbox-title">${title}</div>` : ''}
+                    ${footer ? `<div class="ekko-lightbox-footer">${footer}</div>` : ''}
+                    <button type="button" class="btn-close ekko-lightbox-close" data-bs-dismiss="modal" aria-label="Close" style="position:absolute;top:10px;right:15px;font-size:1.5rem;color:#fff;background:rgba(0,0,0,0.5);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(lightbox);
+            const modal = new bootstrap.Modal(lightbox);
+            modal.show();
+            lightbox.addEventListener('hidden.bs.modal', function() {
+              lightbox.remove();
+            });
+          }
+        }
+      });
 
       // ===== Navbar Active State =====
       const sections = document.querySelectorAll('section[id]');
@@ -1017,22 +1178,24 @@
       const btnLoading = document.querySelector('.btn-loading');
       const myAlert = document.querySelector('.my-alert');
 
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        btnLoading.classList.toggle('d-none');
-        btnKirim.classList.toggle('d-none');
-        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-          .then(() => {
-            btnLoading.classList.toggle('d-none');
-            btnKirim.classList.toggle('d-none');
-            myAlert.classList.toggle('d-none');
-            form.reset();
-            setTimeout(() => {
-              myAlert.classList.add('d-none');
-            }, 5000);
-          })
-          .catch((error) => console.error('Error!', error.message));
-      });
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          btnLoading.classList.toggle('d-none');
+          btnKirim.classList.toggle('d-none');
+          fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+            .then(() => {
+              btnLoading.classList.toggle('d-none');
+              btnKirim.classList.toggle('d-none');
+              myAlert.classList.toggle('d-none');
+              form.reset();
+              setTimeout(() => {
+                myAlert.classList.add('d-none');
+              }, 5000);
+            })
+            .catch((error) => console.error('Error!', error.message));
+        });
+      }
     </script>
 
   </body>
