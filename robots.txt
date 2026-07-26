@@ -1,0 +1,13 @@
+# robots.txt - Mencegah search engine meng-index file sensitif
+
+User-agent: *
+Allow: /
+
+# Blokir folder komponen
+Disallow: /components/
+
+# Blokir folder gambar dari indexing (opsional)
+Disallow: /img/
+
+# Sitemap (jika ada)
+# Sitemap: https://website.com/sitemap.xml
