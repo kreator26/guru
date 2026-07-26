@@ -1,0 +1,103 @@
+.jumbotron {
+    padding-top: 6rem;
+    background-color: #e2edff;
+  }
+  
+  #projects {
+    background-color: #e2edff;
+  }
+  
+  section {
+    padding-top: 5rem;
+  }
+  
+  /* My sertifikat Section */
+  .sertifikat-box {
+    position: relative;
+    background-color: #eaf0ec;
+    border-radius: 10px;
+    height: 500px;
+    transform-style: preserve-3d;
+  }
+  
+  .sertifikat-box::before {
+    content: 'MY';
+    position: absolute;
+    color: #a42727;
+    font-size: 6em;
+    font-weight: bold;
+    font-style: italic;
+    top: 150px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    opacity: 0;
+    transition: 0.5s;
+  }
+  
+  .sertifikat-box:hover::before {
+    opacity: 0.2;
+  }
+  
+  .sertifikat-box::after {
+    content: 'KEYBOARD';
+    position: absolute;
+    color: #fff;
+    font-size: 4.3em;
+    font-weight: bold;
+    font-style: italic;
+    top: 350px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    opacity: 0;
+    transition: 0.5s;
+  }
+  
+  .sertifikat-box:hover::after {
+    opacity: 0.2;
+  }
+  
+  .sertifikat-name {
+    position: absolute;
+    top: 10;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    font-size: 2em;
+    opacity: 0;
+    transform: translate3d(0, 0, 50px);
+    transition: 0.5s;
+  }
+  
+  .sertifikat-box:hover .keyboard-name {
+    top: 50px;
+    opacity: 1;
+  }
+  
+  .sertifikat-detail-button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate3d(-50%, 0, 100px);
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 3;
+  }
+  
+  .sertifikat-box:hover .sertifikat-detail-button {
+    opacity: 1;
+    bottom: 20px;
+  }
+  
+  .sertifikat-img {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate3d(-50%, -52%, 80px);
+    max-width: 350px;
+    transition: 0.5s;
+    z-index: 2;
+  }
+  
+  .sertifikat-box:hover .sertifikat-img {
+    transform: translate3d(-50%, -52%, 100px) rotate(5deg) scale(1.2);
+  }
