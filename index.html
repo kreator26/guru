@@ -17,8 +17,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <!-- Ekko Lightbox -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
 
     <style>
       /* ===== RESET & VARIABLES ===== */
@@ -327,6 +325,7 @@
         border: 1px solid rgba(0, 0, 0, 0.04);
         height: 100%;
         cursor: pointer;
+        position: relative;
       }
 
       .project-card:hover {
@@ -357,12 +356,14 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(13, 110, 253, 0.7);
+        background: rgba(13, 110, 253, 0.75);
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         opacity: 0;
         transition: var(--transition);
+        color: white;
       }
 
       .project-card:hover .project-overlay {
@@ -370,8 +371,15 @@
       }
 
       .project-card .project-overlay i {
-        font-size: 2.5rem;
+        font-size: 3rem;
         color: var(--white);
+        margin-bottom: 8px;
+      }
+
+      .project-card .project-overlay span {
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
       }
 
       .project-card .card-body {
@@ -415,6 +423,7 @@
         border: 1px solid rgba(0, 0, 0, 0.04);
         height: 100%;
         cursor: pointer;
+        position: relative;
       }
 
       .cert-card:hover {
@@ -445,12 +454,14 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(13, 110, 253, 0.7);
+        background: rgba(13, 110, 253, 0.75);
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         opacity: 0;
         transition: var(--transition);
+        color: white;
       }
 
       .cert-card:hover .cert-overlay {
@@ -458,8 +469,15 @@
       }
 
       .cert-card .cert-overlay i {
-        font-size: 2.5rem;
+        font-size: 3rem;
         color: var(--white);
+        margin-bottom: 8px;
+      }
+
+      .cert-card .cert-overlay span {
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
       }
 
       .cert-card .card-body {
@@ -475,7 +493,69 @@
       .cert-card .card-text {
         color: var(--gray);
         font-size: 0.8rem;
-        margin-bottom: 12px;
+        margin-bottom: 0;
+      }
+
+      /* ===== LIGHTBOX MODAL ===== */
+      .image-modal .modal-content {
+        background: rgba(0, 0, 0, 0.92);
+        border: none;
+        border-radius: var(--radius);
+      }
+
+      .image-modal .modal-body {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .image-modal .modal-body img {
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: 8px;
+        object-fit: contain;
+      }
+
+      .image-modal .modal-footer {
+        border: none;
+        justify-content: center;
+        padding: 10px 20px 20px;
+      }
+
+      .image-modal .modal-footer .modal-title-text {
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin: 0;
+      }
+
+      .image-modal .modal-footer .modal-desc-text {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        margin: 0;
+      }
+
+      .image-modal .btn-close-custom {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        z-index: 10;
+      }
+
+      .image-modal .btn-close-custom:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
       }
 
       /* ===== CONTACT ===== */
@@ -552,31 +632,6 @@
         background: var(--primary-dark);
         transform: translateY(-2px);
         box-shadow: 0 12px 40px rgba(13, 110, 253, 0.35);
-      }
-
-      /* ===== LIGHTBOX CUSTOM ===== */
-      .ekko-lightbox-nav-overlay a {
-        color: var(--white) !important;
-        opacity: 0.8;
-        transition: var(--transition);
-      }
-
-      .ekko-lightbox-nav-overlay a:hover {
-        opacity: 1;
-      }
-
-      .ekko-lightbox .modal-dialog {
-        max-width: 90vw;
-      }
-
-      .ekko-lightbox .modal-content {
-        border-radius: var(--radius);
-        background: transparent;
-        border: none;
-      }
-
-      .ekko-lightbox .modal-body {
-        padding: 10px;
       }
 
       /* ===== FOOTER ===== */
@@ -670,6 +725,9 @@
         .cert-card .cert-img-wrapper {
           height: 150px;
         }
+        .image-modal .modal-body img {
+          max-height: 60vh;
+        }
       }
 
       @media (max-width: 576px) {
@@ -710,9 +768,7 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-8 mx-auto text-center" data-aos="fade-up" data-aos-duration="1000">
-            <a href="img/M@copollo.jpg" data-toggle="lightbox" data-title="Markus Paru" data-gallery="profile">
-              <img src="img/M@copollo.jpg" alt="Markus Paru" class="hero-avatar" />
-            </a>
+            <img src="img/M@copollo.jpg" alt="Markus Paru" class="hero-avatar" onclick="openImageModal('img/M@copollo.jpg', 'Markus Paru', 'Foto Profil Markus Paru')" />
             <h1>Halo, Saya <span class="highlight">Markus Paru</span></h1>
             <p class="lead">Dosen | Pengajar &amp; Content Creator</p>
 
@@ -787,11 +843,12 @@
         <div class="row g-4">
           <!-- Project 1 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Penelitian & Inovasi" data-footer="Eksplorasi teknologi pendidikan modern">
+            <div class="project-card" onclick="openImageModal('img/projects/IMG_20230301_103128.jpg', 'Penelitian & Inovasi', 'Eksplorasi teknologi pendidikan modern')">
               <div class="project-img-wrapper">
                 <img src="img/projects/IMG_20230301_103128.jpg" alt="Proyek Penelitian" />
                 <div class="project-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -803,11 +860,12 @@
           </div>
           <!-- Project 2 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Workshop Komunitas" data-footer="Memberdayakan masyarakat melalui berbagi pengetahuan">
+            <div class="project-card" onclick="openImageModal('img/projects/IMG_20230301_104521.jpg', 'Workshop Komunitas', 'Memberdayakan masyarakat melalui berbagi pengetahuan')">
               <div class="project-img-wrapper">
                 <img src="img/projects/IMG_20230301_104521.jpg" alt="Workshop Komunitas" />
                 <div class="project-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -819,11 +877,12 @@
           </div>
           <!-- Project 3 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Konten Digital" data-footer="Membuat konten edukasi untuk platform online">
+            <div class="project-card" onclick="openImageModal('img/projects/IMG_20230505_185154.jpg', 'Konten Digital', 'Membuat konten edukasi untuk platform online')">
               <div class="project-img-wrapper">
                 <img src="img/projects/IMG_20230505_185154.jpg" alt="Konten Digital" />
                 <div class="project-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -835,11 +894,12 @@
           </div>
           <!-- Project 4 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="150">
-            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Konferensi Akademik" data-footer="Mempresentasikan hasil penelitian di forum internasional">
+            <div class="project-card" onclick="openImageModal('img/projects/IMG_20230302_100506.jpg', 'Konferensi Akademik', 'Mempresentasikan hasil penelitian di forum internasional')">
               <div class="project-img-wrapper">
                 <img src="img/projects/IMG_20230302_100506.jpg" alt="Konferensi Akademik" />
                 <div class="project-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -851,11 +911,12 @@
           </div>
           <!-- Project 5 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="250">
-            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Publikasi & Penulisan" data-footer="Menulis artikel tentang pendidikan dan masyarakat">
+            <div class="project-card" onclick="openImageModal('img/projects/IMG_20230321_110856.jpg', 'Publikasi & Penulisan', 'Menulis artikel tentang pendidikan dan masyarakat')">
               <div class="project-img-wrapper">
                 <img src="img/projects/IMG_20230321_110856.jpg" alt="Publikasi" />
                 <div class="project-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -867,17 +928,69 @@
           </div>
           <!-- Project 6 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="350">
-            <div class="project-card" data-toggle="lightbox" data-gallery="projects" data-title="Program Mentoring" data-footer="Membimbing generasi pendidik dan pemimpin masa depan">
+            <div class="project-card" onclick="openImageModal('img/projects/IMG_20230321_110831.jpg', 'Program Mentoring', 'Membimbing generasi pendidik dan pemimpin masa depan')">
               <div class="project-img-wrapper">
                 <img src="img/projects/IMG_20230321_110831.jpg" alt="Mentoring" />
                 <div class="project-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
                 <h5 class="card-title">Program Mentoring</h5>
                 <p class="card-text">Membimbing generasi pendidik dan pemimpin masa depan.</p>
                 <span class="project-tag">Mentoring</span>
+              </div>
+            </div>
+          </div>
+          <!-- Project 7 - Additional from your list -->
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="project-card" onclick="openImageModal('img/projects/baru/IMG_20200516_080541.jpg', 'Proyek Pendidikan', 'Inisiatif pendidikan di masyarakat')">
+              <div class="project-img-wrapper">
+                <img src="img/projects/baru/IMG_20200516_080541.jpg" alt="Proyek Pendidikan" />
+                <div class="project-overlay">
+                  <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Inisiatif Pendidikan</h5>
+                <p class="card-text">Program pendidikan untuk memberdayakan masyarakat.</p>
+                <span class="project-tag">Pendidikan</span>
+              </div>
+            </div>
+          </div>
+          <!-- Project 8 -->
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="450">
+            <div class="project-card" onclick="openImageModal('img/projects/baru/IMG_20200623_093046.jpg', 'Kegiatan Sosial', 'Program sosial dan pemberdayaan masyarakat')">
+              <div class="project-img-wrapper">
+                <img src="img/projects/baru/IMG_20200623_093046.jpg" alt="Kegiatan Sosial" />
+                <div class="project-overlay">
+                  <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Kegiatan Sosial</h5>
+                <p class="card-text">Program sosial untuk pemberdayaan masyarakat.</p>
+                <span class="project-tag">Sosial</span>
+              </div>
+            </div>
+          </div>
+          <!-- Project 9 -->
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+            <div class="project-card" onclick="openImageModal('img/projects/baru/IMG_20200626_094944.jpg', 'Pengembangan Diri', 'Workshop pengembangan diri dan karir')">
+              <div class="project-img-wrapper">
+                <img src="img/projects/baru/IMG_20200626_094944.jpg" alt="Pengembangan Diri" />
+                <div class="project-overlay">
+                  <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Pengembangan Diri</h5>
+                <p class="card-text">Workshop pengembangan diri dan karir.</p>
+                <span class="project-tag">Workshop</span>
               </div>
             </div>
           </div>
@@ -897,11 +1010,12 @@
         <div class="row g-4">
           <!-- Certificate 1 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Keychron K2" data-footer="Sertifikasi profesional dalam metodologi pengajaran modern">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat.jpg', 'Sertifikat Keychron K2', 'Sertifikasi profesional dalam metodologi pengajaran modern')">
               <div class="cert-img-wrapper">
                 <img src="img/sertifikat/sertifikat.jpg" alt="Sertifikat Keychron K2" />
                 <div class="cert-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -912,11 +1026,12 @@
           </div>
           <!-- Certificate 2 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Womier RGB" data-footer="Pelatihan lanjutan dalam integrasi teknologi pendidikan">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat1.jpg', 'Sertifikat Womier RGB', 'Pelatihan lanjutan dalam integrasi teknologi pendidikan')">
               <div class="cert-img-wrapper">
                 <img src="img/sertifikat/sertifikat1.jpg" alt="Sertifikat Womier RGB" />
                 <div class="cert-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -927,11 +1042,12 @@
           </div>
           <!-- Certificate 3 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Red Dragon" data-footer="Kepemimpinan dan manajemen di pendidikan tinggi">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat2.png', 'Sertifikat Red Dragon', 'Kepemimpinan dan manajemen di pendidikan tinggi')">
               <div class="cert-img-wrapper">
                 <img src="img/sertifikat/sertifikat2.png" alt="Sertifikat Red Dragon" />
                 <div class="cert-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -942,11 +1058,12 @@
           </div>
           <!-- Certificate 4 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="150">
-            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Metodologi Penelitian" data-footer="Pelatihan khusus dalam metodologi penelitian">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat3.png', 'Sertifikat Metodologi Penelitian', 'Pelatihan khusus dalam metodologi penelitian')">
               <div class="cert-img-wrapper">
                 <img src="img/sertifikat/sertifikat3.png" alt="Sertifikat Metodologi Penelitian" />
                 <div class="cert-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -957,11 +1074,12 @@
           </div>
           <!-- Certificate 5 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="250">
-            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Literasi Digital" data-footer="Sertifikasi literasi digital dan pendidikan online">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat4.jpeg', 'Sertifikat Literasi Digital', 'Sertifikasi literasi digital dan pendidikan online')">
               <div class="cert-img-wrapper">
                 <img src="img/sertifikat/sertifikat4.jpeg" alt="Sertifikat Literasi Digital" />
                 <div class="cert-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
@@ -972,16 +1090,81 @@
           </div>
           <!-- Certificate 6 -->
           <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="350">
-            <div class="cert-card" data-toggle="lightbox" data-gallery="certificates" data-title="Sertifikat Komunikasi" data-footer="Keunggulan dalam komunikasi dan berbicara di depan umum">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat5.jpeg', 'Sertifikat Komunikasi', 'Keunggulan dalam komunikasi dan berbicara di depan umum')">
               <div class="cert-img-wrapper">
                 <img src="img/sertifikat/sertifikat5.jpeg" alt="Sertifikat Komunikasi" />
                 <div class="cert-overlay">
                   <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
                 </div>
               </div>
               <div class="card-body">
                 <h5 class="card-title">Red Dragon</h5>
                 <p class="card-text">Keunggulan dalam komunikasi dan berbicara di depan umum.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Certificate 7 -->
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat6.jpeg', 'Sertifikat Pengembangan Profesi', 'Pengembangan profesional dalam bidang pendidikan')">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat6.jpeg" alt="Sertifikat Pengembangan Profesi" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Red Dragon</h5>
+                <p class="card-text">Pengembangan profesional dalam bidang pendidikan.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Certificate 8 -->
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="450">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat7.jpeg', 'Sertifikat Manajemen Pendidikan', 'Manajemen dan kepemimpinan pendidikan')">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat7.jpeg" alt="Sertifikat Manajemen Pendidikan" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Red Dragon</h5>
+                <p class="card-text">Manajemen dan kepemimpinan pendidikan.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Certificate 9 -->
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat8.jpeg', 'Sertifikat Teknologi Pendidikan', 'Integrasi teknologi dalam pembelajaran')">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat8.jpeg" alt="Sertifikat Teknologi Pendidikan" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Red Dragon</h5>
+                <p class="card-text">Integrasi teknologi dalam pembelajaran.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Certificate 10 -->
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="550">
+            <div class="cert-card" onclick="openImageModal('img/sertifikat/sertifikat9.jpeg', 'Sertifikat Kurikulum', 'Pengembangan kurikulum dan evaluasi pembelajaran')">
+              <div class="cert-img-wrapper">
+                <img src="img/sertifikat/sertifikat9.jpeg" alt="Sertifikat Kurikulum" />
+                <div class="cert-overlay">
+                  <i class="bi bi-search-plus"></i>
+                  <span>Klik untuk perbesar</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Red Dragon</h5>
+                <p class="card-text">Pengembangan kurikulum dan evaluasi pembelajaran.</p>
               </div>
             </div>
           </div>
@@ -1056,6 +1239,26 @@
       </div>
     </section>
 
+    <!-- ===== IMAGE MODAL ===== -->
+    <div class="modal fade image-modal" id="imageModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+          <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x-lg"></i>
+          </button>
+          <div class="modal-body">
+            <img id="modalImage" src="" alt="Gambar" />
+          </div>
+          <div class="modal-footer">
+            <div class="text-center w-100">
+              <p class="modal-title-text" id="modalTitle">Judul</p>
+              <p class="modal-desc-text" id="modalDesc">Deskripsi</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== FOOTER ===== -->
     <footer>
       <div class="container">
@@ -1092,7 +1295,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 
     <script>
       // ===== AOS =====
@@ -1112,44 +1314,24 @@
       gsap.from('.hero .cta-buttons', { delay: 1.2, duration: 1, opacity: 0, y: 20, ease: 'power3.out' });
       gsap.from('.navbar', { duration: 1, opacity: 0, y: -100, ease: 'bounce.out' });
 
-      // ===== Lightbox =====
-      document.addEventListener('click', function(e) {
-        if (e.target.closest('[data-toggle="lightbox"]')) {
-          e.preventDefault();
-          const element = e.target.closest('[data-toggle="lightbox"]');
-          const imgSrc = element.querySelector('img')?.src || element.href || element.dataset.src;
-          const title = element.dataset.title || '';
-          const footer = element.dataset.footer || '';
+      // ===== Image Modal Function =====
+      let imageModalInstance = null;
 
-          if (imgSrc) {
-            const lightbox = document.createElement('div');
-            lightbox.className = 'modal fade ekko-lightbox';
-            lightbox.setAttribute('tabindex', '-1');
-            lightbox.innerHTML = `
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-body">
-                    <div class="ekko-lightbox-container">
-                      <img src="${imgSrc}" alt="${title}" style="width:100%;border-radius:8px;" />
-                    </div>
-                    ${title ? `<div class="ekko-lightbox-title">${title}</div>` : ''}
-                    ${footer ? `<div class="ekko-lightbox-footer">${footer}</div>` : ''}
-                    <button type="button" class="btn-close ekko-lightbox-close" data-bs-dismiss="modal" aria-label="Close" style="position:absolute;top:10px;right:15px;font-size:1.5rem;color:#fff;background:rgba(0,0,0,0.5);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;">
-                      <i class="bi bi-x-lg"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            `;
-            document.body.appendChild(lightbox);
-            const modal = new bootstrap.Modal(lightbox);
-            modal.show();
-            lightbox.addEventListener('hidden.bs.modal', function() {
-              lightbox.remove();
-            });
-          }
+      function openImageModal(src, title, desc) {
+        const modal = document.getElementById('imageModal');
+        const img = document.getElementById('modalImage');
+        const titleEl = document.getElementById('modalTitle');
+        const descEl = document.getElementById('modalDesc');
+
+        img.src = src;
+        titleEl.textContent = title || 'Gambar';
+        descEl.textContent = desc || '';
+
+        if (!imageModalInstance) {
+          imageModalInstance = new bootstrap.Modal(modal);
         }
-      });
+        imageModalInstance.show();
+      }
 
       // ===== Navbar Active State =====
       const sections = document.querySelectorAll('section[id]');
