@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="id" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="AI Chat Assistant powered by Google Gemini">
+    <meta name="theme-color" content="#0b57d0">
+    
+    <title>Gemini Pro · AI Assistant</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0,1">
+    
+    <!-- Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        /* ============================================================
+                   ROOT VARIABLES
+                   ============================================================ */
+        :root {
+            /* --- Primary --- */
+            --primary: #0b57d0;
+            --primary-hover: #0842a0;
+            --primary-light: #d3e3fd;
+            --primary-dark: #1f3760;
+            --primary-gradient: linear-gradient(135deg, #4285f4, #9b72cb, #d96570);
+            
+            /* --- Surface --- */
+            --surface: #ffffff;
+            --surface-2: #f8fafd;
+            --surface-3: #f0f4f9;
+            --surface-4: #e9eef6;
+            --surface-5: #dde3ea;
+            
+            /* --- Text --- */
+            --text: #1f1f1f;
+            --text-2: #444746;
+            --text-3: #727676;
+            --text-4: #9aa0a6;
+            --text-inverse: #ffffff;
+            
+            /* --- Border --- */
+            --border: #e1e3e1;
+            --border-2: #c4c7c5;
+            --border-3: #747775;
+            
+            /* --- Feedback --- */
+            --error: #b3261e;
+            --error-light: #f9dedc;
+            --success: #34a853;
+            --warning: #fbbc04;
+            
+            /* --- Spacing --- */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 12px;
+            --space-lg: 16px;
+            --space-xl: 20px;
+            --space-xxl: 24px;
+            --space-xxxl: 32px;
+            
+            /* --- Radius --- */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-xxl: 32px;
+            --radius-full: 9999px;
+            
+            /* --- Shadows --- */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
+            
+            /* --- Chat --- */
+            --chat-user-bg: var(--primary-light);
+            --chat-user-text: var(--text);
+            --chat-ai-bg: var(--surface-3);
+            --chat-ai-text: var(--text);
+            
+            /* --- Misc --- */
+            --chip-bg: var(--primary-light);
+            --chip-text: var(--primary);
+            --placeholder: #5f6368;
+            --footer: #757575;
+            --file-preview-bg: var(--surface-3);
+            --scrollbar: var(--border-2);
+            
+            /* --- Transitions --- */
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* ============================================================
+                   DARK THEME
+                   ============================================================ */
+        [data-theme="dark"] {
+            --surface: #131314;
+            --surface-2: #1b1b1b;
+            --surface-3: #1e1f20;
+            --surface-4: #282a2c;
+            --surface-5: #333537;
+            
+            --text: #e3e3e3;
+            --text-2: #c4c7c5;
+            --text-3: #9a9b9c;
+            --text-4: #6e6f70;
+            --text-inverse: #131314;
+            
+            --border: #444746;
+            --border-2: #8e918f;
+            --border-3: #5e6060;
+            
+            --primary: #a8c7fa;
+            --primary-hover: #8ab4f8;
+            --primary-light: #1f3760;
+            --primary-dark: #d3e3fd;
+            --primary-gradient: linear-gradient(135deg, #6ea8fe, #a78bfa, #f472b6);
+            
+            --error: #f2b8b5;
+            --error-light: #601410;
+            
+            --chat-user-bg: var(--primary-light);
+            --chat-user-text: var(--text);
+            --chat-ai-bg: var(--surface-3);
+            --chat-ai-text: var(--text);
+            
+            --chip-bg: var(--primary-light);
+            --chip-text: #aec6f6;
+            --placeholder: #bdc1c6;
+            --footer: #9a9b9c;
+            --file-preview-bg: var(--surface-3);
+            --scrollbar: var(--border);
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        
+        /* ============================================================
+                   RESET & BASE
+                   ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            background: var(--surface);
+            color: var(--text);
+            transition: background var(--transition), color var(--transition);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* ============================================================
+                   SCROLLBAR
+                   ============================================================ */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar);
+            border-radius: var(--radius-full);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-2);
+        }
+        
+        /* ============================================================
+                   LAYOUT
+                   ============================================================ */
+        .app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-height: 100vh;
+            background: var(--surface);
+            transition: background var(--transition);
+            overflow: hidden;
+        }
+        
+        /* ============================================================
+                   HEADER
+                   ============================================================ */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+            transition: background var(--transition), border-color var(--transition);
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 16px;
+            }
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .header-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #fff;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: var(--radius-full);
+            background: var(--primary-light);
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background var(--transition), color var(--transition);
+        }
+        
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-3);
+            transition: color var(--transition);
+        }
+        
+        .header-status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            transition: background var(--transition);
+        }
+        
+        .header-status .dot.offline {
+            background: var(--error);
+        }
+        
+        .header-status .dot.warning {
+            background: var(--warning);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .header-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-full);
+            border: none;
+            background: transparent;
+            color: var(--text-2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+            font-size: 20px;
+        }
+        
+        .header-btn:hover {
+            background: var(--surface-3);
+        }
+        
+        .header-btn:active {
+            transform: scale(0.92);
+        }
+        
+        .header-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 2px 2px 2px 12px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            transition: all var(--transition);
+            text-decoration: none;
+            color: var(--text);
+        }
+        
+        .header-profile:hover {
+            background: var(--surface-3);
+            border-color: var(--border-2);
+        }
+        
+        .header-profile .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 13px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .header-profile .name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            transition: color var(--transition);
+        }
+        
+        @media (max-width: 480px) {
+            .header-profile .name {
+                display: none;
+            }
+            .header-badge {
+                display: none;
+            }
+            .header-status {
+                display: none;
+            }
+        }
+        
+        /* ============================================================
+                   CHAT CONTAINER
+                   ============================================================ */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 32px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            scroll-behavior: smooth;
+            background: var(--surface-2);
+            transition: background var(--transition);
+        }
+        
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .chat-container {
+                padding: 12px;
+                gap: 12px;
+            }
+        }
+        
+        /* ============================================================
+                   WELCOME
+                   ============================================================ */
+        .welcome {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            min-height: 300px;
+        }
+        
+        .welcome-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        .welcome h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .welcome p {
+            color: var(--text-3);
+            font-size: 16px;
+            max-width: 480px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+            transition: color var(--transition);
+        }
+        
+        .welcome-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            max-width: 600px;
+        }
+        
+        .welcome-chips .chip {
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            border: none;
+            background: var(--chip-bg);
+            color: var(--chip-text);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        
+        .welcome-chips .chip:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            filter: brightness(0.95);
+        }
+        
+        .welcome-chips .chip:active {
+            transform: scale(0.96);
+        }
+        
+        /* ============================================================
+                   MESSAGES
+                   ============================================================ */
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 82%;
+            animation: messageIn 0.35s ease;
+        }
+        
+        @keyframes messageIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        
+        .message.ai {
+            align-self: flex-start;
+        }
+        
+        .message-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            background: var(--surface-4);
+            color: var(--text-2);
+            transition: background var(--transition), color var(--transition);
+        }
+        
+        .message.user .message-avatar {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+        
+        .message-bubble {
+            padding: 12px 18px;
+            border-radius: var(--radius-lg);
+            font-size: 14.5px;
+            line-height: 1.65;
+            word-wrap: break-word;
+            min-width: 40px;
+            transition: background var(--transition), color var(--transition);
+        }
+        
+        .message.user .message-bubble {
+            background: var(--chat-user-bg);
+            color: var(--chat-user-text);
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.ai .message-bubble {
+            background: var(--chat-ai-bg);
+            color: var(--chat-ai-text);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: var(--text-4);
+            margin-top: 4px;
+            opacity: 0.7;
+            transition: color var(--transition);
+        }
+        
+        .message.user .message-time {
+            text-align: right;
+        }
+        
+        /* File attachments in message */
+        .message-files {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .message-files .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--surface-4);
+            padding: 2px 10px 2px 8px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            color: var(--text-2);
+            transition: background var(--transition), color var(--transition);
+        }
+        
+        .message-files .tag .material-symbols-outlined {
+            font-size: 16px;
+        }
+        
+        /* ============================================================
+                   TYPING INDICATOR
+                   ============================================================ */
+        .typing {
+            display: none;
+            align-self: flex-start;
+            gap: 12px;
+            padding: 4px 0;
+        }
+        
+        .typing.active {
+            display: flex;
+        }
+        
+        .typing-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            background: var(--surface-4);
+            color: var(--text-2);
+            transition: background var(--transition);
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 5px;
+            padding: 12px 20px;
+            background: var(--chat-ai-bg);
+            border-radius: var(--radius-lg);
+            border-bottom-left-radius: 4px;
+            transition: background var(--transition);
+        }
+        
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-3);
+            animation: dotBounce 1.4s infinite ease-in-out both;
+            transition: background var(--transition);
+        }
+        
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0; }
+        
+        @keyframes dotBounce {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        /* ============================================================
+                   MARKDOWN STYLING
+                   ============================================================ */
+        .message-bubble h1,
+        .message-bubble h2,
+        .message-bubble h3,
+        .message-bubble h4 {
+            margin: 12px 0 6px 0;
+            font-weight: 600;
+        }
+        .message-bubble h1 { font-size: 22px; }
+        .message-bubble h2 { font-size: 19px; }
+        .message-bubble h3 { font-size: 16px; }
+        .message-bubble h4 { font-size: 14px; }
+        .message-bubble p { margin: 6px 0; }
+        .message-bubble ul,
+        .message-bubble ol {
+            padding-left: 24px;
+            margin: 6px 0;
+        }
+        .message-bubble li {
+            margin: 2px 0;
+        }
+        .message-bubble code {
+            background: var(--surface-4);
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9em;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            transition: background var(--transition);
+        }
+        .message-bubble pre {
+            background: var(--surface-4);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin: 8px 0;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            transition: background var(--transition);
+        }
+        .message-bubble blockquote {
+            border-left: 3px solid var(--primary);
+            padding-left: 14px;
+            margin: 8px 0;
+            color: var(--text-3);
+            transition: color var(--transition);
+        }
+        .message-bubble a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+        .message-bubble a:hover {
+            text-decoration: underline;
+        }
+        .message-bubble table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 8px 0;
+            font-size: 13px;
+        }
+        .message-bubble th,
+        .message-bubble td {
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            text-align: left;
+            transition: border-color var(--transition);
+        }
+        .message-bubble th {
+            background: var(--surface-4);
+            font-weight: 600;
+            transition: background var(--transition);
+        }
+        .message-bubble hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 12px 0;
+            transition: border-color var(--transition);
+        }
+        .message-bubble img {
+            max-width: 100%;
+            border-radius: var(--radius-md);
+        }
+        
+        /* ============================================================
+                   INPUT AREA
+                   ============================================================ */
+        .input-area {
+            padding: 12px 24px 20px;
+            flex-shrink: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            transition: background var(--transition), border-color var(--transition);
+        }
+        
+        @media (max-width: 768px) {
+            .input-area {
+                padding: 10px 16px 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .input-area {
+                padding: 8px 12px 14px;
+            }
+        }
+        
+        .input-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .input-box {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 4px;
+            align-items: center;
+            background: var(--surface);
+            border: 1.5px solid var(--border-2);
+            border-radius: var(--radius-xl);
+            padding: 4px 6px 4px 4px;
+            transition: all var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .input-box:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        
+        .input-box .btn {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-full);
+            border: none;
+            background: transparent;
+            color: var(--text-3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .input-box .btn:hover {
+            background: var(--surface-3);
+            color: var(--text-2);
+        }
+        
+        .input-box .btn:active {
+            transform: scale(0.92);
+        }
+        
+        .input-box .btn-send {
+            color: var(--text-4);
+        }
+        
+        .input-box .btn-send.active {
+            color: var(--primary);
+        }
+        
+        .input-box .btn-send.active:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        
+        .input-box textarea {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14.5px;
+            line-height: 1.6;
+            padding: 8px 4px;
+            resize: none;
+            width: 100%;
+            min-height: 24px;
+            max-height: 120px;
+            overflow-y: auto;
+            transition: color var(--transition);
+        }
+        
+        .input-box textarea::placeholder {
+            color: var(--placeholder);
+            transition: color var(--transition);
+        }
+        
+        /* ============================================================
+                   FILE PREVIEW
+                   ============================================================ */
+        .file-preview {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 6px 4px 0;
+            display: none;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .file-preview.has-files {
+            display: flex;
+        }
+        
+        .file-preview .item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--file-preview-bg);
+            border-radius: var(--radius-md);
+            padding: 5px 8px 5px 12px;
+            border: 1px solid var(--border);
+            font-size: 13px;
+            max-width: 200px;
+            animation: slideIn 0.3s ease;
+            transition: background var(--transition), border-color var(--transition);
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-6px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .file-preview .item .icon {
+            font-size: 18px;
+            color: var(--primary);
+        }
+        
+        .file-preview .item .name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+            font-size: 12.5px;
+            transition: color var(--transition);
+        }
+        
+        .file-preview .item .size {
+            color: var(--text-4);
+            font-size: 11px;
+            white-space: nowrap;
+            transition: color var(--transition);
+        }
+        
+        .file-preview .item .remove {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            color: var(--text-3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+        
+        .file-preview .item .remove:hover {
+            background: var(--error-light);
+            color: var(--error);
+        }
+        
+        .file-preview .item .thumb {
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            background: var(--surface-4);
+        }
+        
+        /* ============================================================
+                   DROP ZONE
+                   ============================================================ */
+        .drop-zone {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        .drop-zone.active {
+            display: flex;
+            pointer-events: auto;
+        }
+        
+        .drop-zone .content {
+            background: var(--surface);
+            border: 3px dashed var(--primary);
+            border-radius: var(--radius-xxl);
+            padding: 48px 64px;
+            text-align: center;
+            max-width: 420px;
+            animation: pulse 1.2s ease infinite;
+            transition: background var(--transition);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .drop-zone .content .icon {
+            font-size: 56px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        
+        .drop-zone .content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text);
+            transition: color var(--transition);
+        }
+        
+        .drop-zone .content p {
+            color: var(--text-3);
+            font-size: 14px;
+            transition: color var(--transition);
+        }
+        
+        /* ============================================================
+                   HIDDEN INPUT
+                   ============================================================ */
+        .hidden-input {
+            display: none;
+        }
+        
+        /* ============================================================
+                   FOOTER
+                   ============================================================ */
+        .footer {
+            text-align: center;
+            padding: 6px 16px 10px;
+            font-size: 11px;
+            color: var(--footer);
+            flex-shrink: 0;
+            transition: color var(--transition);
+        }
+        
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ============================================================
+                   RESPONSIVE - TABLET
+                   ============================================================ */
+        @media (max-width: 768px) {
+            .message {
+                max-width: 90%;
+            }
+            .welcome h1 {
+                font-size: 24px;
+            }
+            .welcome-icon {
+                font-size: 48px;
+            }
+            .drop-zone .content {
+                padding: 32px 40px;
+                margin: 20px;
+            }
+        }
+        
+        /* ============================================================
+                   RESPONSIVE - MOBILE
+                   ============================================================ */
+        @media (max-width: 480px) {
+            .message {
+                max-width: 94%;
+                gap: 8px;
+            }
+            .message-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 13px;
+            }
+            .message-bubble {
+                font-size: 13.5px;
+                padding: 10px 14px;
+            }
+            .welcome h1 {
+                font-size: 20px;
+            }
+            .welcome p {
+                font-size: 14px;
+            }
+            .welcome-chips .chip {
+                font-size: 12px;
+                padding: 6px 14px;
+            }
+            .input-box {
+                border-radius: var(--radius-lg);
+            }
+            .input-box textarea {
+                font-size: 13.5px;
+            }
+            .file-preview .item {
+                max-width: 140px;
+                font-size: 12px;
+                padding: 4px 6px 4px 10px;
+            }
+            .drop-zone .content {
+                padding: 24px 20px;
+            }
+            .drop-zone .content .icon {
+                font-size: 40px;
+            }
+            .drop-zone .content h3 {
+                font-size: 17px;
+            }
+            .chat-container {
+                padding: 10px;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app" id="app">
+        
+        <!-- ============================================================
+        HEADER
+        ============================================================ -->
+        <header class="header">
+            <div class="header-left">
+                <div class="header-logo">✨</div>
+                <span class="header-title">Gemini Pro</span>
+                <span class="header-badge">AI</span>
+                <div class="header-status">
+                    <span class="dot" id="statusDot"></span>
+                    <span id="statusText">Online</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="header-btn" id="clearBtn" title="Hapus percakapan" aria-label="Clear chat">
+                    <span class="material-symbols-outlined">delete_sweep</span>
+                </button>
+                <button class="header-btn" id="themeBtn" title="Toggle tema" aria-label="Toggle theme">
+                    <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+                </button>
+                <div class="header-profile" id="profileBtn">
+                    <span class="name" id="userName">User</span>
+                    <div class="avatar" id="userAvatar">
+                        <span id="avatarText">U</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- ============================================================
+        CHAT CONTAINER
+        ============================================================ -->
+        <div class="chat-container" id="chatContainer">
+            
+            <!-- Welcome -->
+            <div class="welcome" id="welcome">
+                <div class="welcome-icon">✨</div>
+                <h1>How can I help you today?</h1>
+                <p>Chat with Gemini AI. Upload images, documents, or spreadsheets for analysis.</p>
+                <div class="welcome-chips" id="prompts">
+                    <button class="chip" data-prompt="Explain artificial intelligence in simple terms">🧠 What is AI?</button>
+                    <button class="chip" data-prompt="Create a 3-day healthy meal plan">🥗 Meal plan</button>
+                    <button class="chip" data-prompt="Write a professional job application email">✉️ Job email</button>
+                    <button class="chip" data-prompt="Give tips for an effective presentation">📊 Presentation tips</button>
+                    <button class="chip" data-prompt="Recommend tourist spots in Yogyakarta">🏝️ Travel guide</button>
+                    <button class="chip" data-prompt="Analyze the file I uploaded">📄 Analyze file</button>
+                </div>
+            </div>
+            
+            <!-- Typing -->
+            <div class="typing" id="typing">
+                <div class="typing-avatar">🤖</div>
+                <div class="typing-dots">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ============================================================
+        FILE PREVIEW
+        ============================================================ -->
+        <div class="file-preview" id="filePreview"></div>
+        
+        <!-- ============================================================
+        INPUT AREA
+        ============================================================ -->
+        <div class="input-area">
+            <div class="input-wrapper">
+                <div class="input-box">
+                    <button class="btn" id="uploadBtn" aria-label="Upload file">
+                        <span class="material-symbols-outlined">attach_file</span>
+                    </button>
+                    <input type="file" id="fileInput" class="hidden-input" multiple accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.pdf,.doc,.docx,.txt,.xls,.xlsx,.csv">
+                    <textarea id="chatInput" placeholder="Type your message..." rows="1"></textarea>
+                    <button class="btn btn-send" id="sendBtn" aria-label="Send message">
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ============================================================
+        DROP ZONE
+        ============================================================ -->
+        <div class="drop-zone" id="dropZone">
+            <div class="content">
+                <div class="icon">📤</div>
+                <h3>Drop your files here</h3>
+                <p>Images, PDF, Word, Excel, CSV, or TXT</p>
+            </div>
+        </div>
+        
+        <!-- ============================================================
+        FOOTER
+        ============================================================ -->
+        <footer class="footer">
+            <span>Powered by </span>
+            <a href="#" onclick="return false;">Google Gemini</a>
+            <span> · © 2026</span>
+        </footer>
+    </div>
+    
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+            
+            // ============================================================
+            // 🔑 CONFIGURATION
+            // ============================================================
+            const CONFIG = {
+                API_KEY: 'AQ.Ab8RN6IoSHQYroTbmua34Qx98cckDHyVIpLeumhKCPx436IBOw',
+                API_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+                MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB
+                ALLOWED_TYPES: [
+                    'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml',
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'text/plain',
+                    'application/vnd.ms-excel',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'text/csv'
+                ]
+            };
+            
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const $ = (s) => document.querySelector(s);
+            const $$ = (s) => document.querySelectorAll(s);
+            
+            const chat = $('#chatContainer');
+            const welcome = $('#welcome');
+            const input = $('#chatInput');
+            const sendBtn = $('#sendBtn');
+            const uploadBtn = $('#uploadBtn');
+            const fileInput = $('#fileInput');
+            const filePreview = $('#filePreview');
+            const dropZone = $('#dropZone');
+            const typing = $('#typing');
+            const themeBtn = $('#themeBtn');
+            const themeIcon = $('#themeIcon');
+            const clearBtn = $('#clearBtn');
+            const statusDot = $('#statusDot');
+            const statusText = $('#statusText');
+            const chips = $$('.chip');
+            const userName = $('#userName');
+            const avatarText = $('#avatarText');
+            
+            // ============================================================
+            // STATE
+            // ============================================================
+            const state = {
+                files: [],
+                history: [],
+                processing: false,
+                theme: localStorage.getItem('theme') === 'dark' ||
+                       (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+            };
+            
+            // ============================================================
+            // HELPERS
+            // ============================================================
+            function formatSize(bytes) {
+                if (bytes < 1024) return bytes + ' B';
+                if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+                return (bytes / 1048576).toFixed(1) + ' MB';
+            }
+            
+            function getFileIcon(file) {
+                const t = file.type;
+                const map = {
+                    'image/': 'image',
+                    'application/pdf': 'picture_as_pdf',
+                    'application/msword': 'description',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'description',
+                    'application/vnd.ms-excel': 'table_chart',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'table_chart',
+                    'text/csv': 'table_chart',
+                    'text/plain': 'article'
+                };
+                for (const [key, val] of Object.entries(map)) {
+                    if (t.startsWith(key) || t === key) return val;
+                }
+                return 'insert_drive_file';
+            }
+            
+            function isImage(file) {
+                return file.type.startsWith('image/');
+            }
+            
+            function isAllowed(file) {
+                return CONFIG.ALLOWED_TYPES.includes(file.type) || file.type.startsWith('image/');
+            }
+            
+            function getTime() {
+                return new Date().toLocaleTimeString('id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            function scrollToBottom() {
+                chat.scrollTop = chat.scrollHeight;
+            }
+            
+            // ============================================================
+            // THEME
+            // ============================================================
+            function setTheme(dark) {
+                state.theme = dark;
+                document.documentElement.setAttribute('data-theme', dark ? 'dark' : '');
+                themeIcon.textContent = dark ? 'light_mode' : 'dark_mode';
+                localStorage.setItem('theme', dark ? 'dark' : 'light');
+            }
+            setTheme(state.theme);
+            themeBtn.addEventListener('click', () => setTheme(!state.theme));
+            
+            // ============================================================
+            // STATUS
+            // ============================================================
+            function setStatus(status, type = 'online') {
+                statusText.textContent = status;
+                statusDot.className = 'dot';
+                if (type === 'offline') statusDot.classList.add('offline');
+                else if (type === 'warning') statusDot.classList.add('warning');
+            }
+            setStatus('Online', 'online');
+            
+            // ============================================================
+            // USER PROFILE
+            // ============================================================
+            const user = { name: 'Rosalia Pano' };
+            if (user.name) {
+                userName.textContent = user.name.split(' ')[0];
+                avatarText.textContent = user.name.charAt(0).toUpperCase();
+            }
+            
+            // ============================================================
+            // MARKDOWN
+            // ============================================================
+            function renderMarkdown(text) {
+                try {
+                    return marked.parse(text);
+                } catch {
+                    return text;
+                }
+            }
+            
+            // ============================================================
+            // CHAT - MESSAGES
+            // ============================================================
+            function addMessage(role, text, fileList = []) {
+                welcome.style.display = 'none';
+                
+                const div = document.createElement('div');
+                div.className = `message ${role}`;
+                
+                const avatar = role === 'user' ? '👤' : '🤖';
+                
+                let fileHTML = '';
+                if (fileList.length > 0) {
+                    fileHTML = `<div class="message-files">`;
+                    fileList.forEach(f => {
+                        fileHTML += `
+                            <span class="tag">
+                                <span class="material-symbols-outlined">${getFileIcon(f)}</span>
+                                ${f.name}
+                            </span>
+                        `;
+                    });
+                    fileHTML += `</div>`;
+                }
+                
+                const content = role === 'ai' ? renderMarkdown(text) : text;
+                
+                div.innerHTML = `
+                    <div class="message-avatar">${avatar}</div>
+                    <div>
+                        <div class="message-bubble">
+                            ${fileHTML}
+                            ${content}
+                            <div class="message-time">${getTime()}</div>
+                        </div>
+                    </div>
+                `;
+                
+                chat.insertBefore(div, typing);
+                scrollToBottom();
+                
+                state.history.push({
+                    role,
+                    text,
+                    files: fileList.map(f => f.name)
+                });
+            }
+            
+            function showTyping() {
+                typing.classList.add('active');
+                scrollToBottom();
+            }
+            
+            function hideTyping() {
+                typing.classList.remove('active');
+            }
+            
+            // ============================================================
+            // FILE HANDLING
+            // ============================================================
+            function renderFiles() {
+                filePreview.innerHTML = '';
+                if (state.files.length === 0) {
+                    filePreview.classList.remove('has-files');
+                    return;
+                }
+                filePreview.classList.add('has-files');
+                
+                state.files.forEach((file, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'item';
+                    
+                    let thumb = '';
+                    if (isImage(file)) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const img = item.querySelector('.thumb');
+                            if (img) img.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                        thumb = `<img class="thumb" alt="${file.name}" src="">`;
+                    } else {
+                        thumb = `<span class="material-symbols-outlined icon">${getFileIcon(file)}</span>`;
+                    }
+                    
+                    item.innerHTML = `
+                        ${thumb}
+                        <span class="name" title="${file.name}">${file.name}</span>
+                        <span class="size">${formatSize(file.size)}</span>
+                        <button class="remove" data-index="${index}" aria-label="Remove file">
+                            <span class="material-symbols-outlined" style="font-size:16px;">close</span>
+                        </button>
+                    `;
+                    filePreview.appendChild(item);
+                });
+                
+                filePreview.querySelectorAll('.remove').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.index);
+                        state.files.splice(idx, 1);
+                        renderFiles();
+                        updatePlaceholder();
+                        if (state.files.length === 0) fileInput.value = '';
+                        updateSendButton();
+                    });
+                });
+            }
+            
+            function updatePlaceholder() {
+                input.placeholder = state.files.length > 0 ?
+                    `Type your message... (${state.files.length} file${state.files.length > 1 ? 's' : ''})` :
+                    'Type your message...';
+            }
+            
+            function updateSendButton() {
+                const hasText = input.value.trim().length > 0;
+                const hasFiles = state.files.length > 0;
+                sendBtn.classList.toggle('active', hasText || hasFiles);
+            }
+            
+            function addFiles(fileList) {
+                let added = 0;
+                for (const f of fileList) {
+                    if (!isAllowed(f)) continue;
+                    if (f.size > CONFIG.MAX_FILE_SIZE) continue;
+                    const exists = state.files.some(x => x.name === f.name && x.size === f.size);
+                    if (exists) continue;
+                    state.files.push(f);
+                    added++;
+                }
+                if (added > 0) {
+                    renderFiles();
+                    updatePlaceholder();
+                    updateSendButton();
+                }
+                return added;
+            }
+            
+            function clearFiles() {
+                state.files = [];
+                renderFiles();
+                updatePlaceholder();
+                fileInput.value = '';
+                updateSendButton();
+            }
+            
+            // ============================================================
+            // FILE EVENTS
+            // ============================================================
+            uploadBtn.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    addFiles(this.files);
+                    this.value = '';
+                }
+            });
+            
+            // Drag & Drop
+            let dragCounter = 0;
+            
+            document.addEventListener('dragenter', (e) => {
+                e.preventDefault();
+                dragCounter++;
+                if (dragCounter === 1) dropZone.classList.add('active');
+            });
+            
+            document.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dragCounter--;
+                if (dragCounter === 0) dropZone.classList.remove('active');
+            });
+            
+            document.addEventListener('dragover', (e) => e.preventDefault());
+            
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dragCounter = 0;
+                dropZone.classList.remove('active');
+                if (e.dataTransfer.files.length > 0) {
+                    const added = addFiles(e.dataTransfer.files);
+                    if (added > 0) input.focus();
+                }
+            });
+            
+            // Paste image
+            input.addEventListener('paste', function(e) {
+                const items = e.clipboardData.items;
+                const fileList = [];
+                for (const item of items) {
+                    if (item.type.startsWith('image/')) {
+                        const f = item.getAsFile();
+                        if (f) fileList.push(f);
+                    }
+                }
+                if (fileList.length > 0) {
+                    e.preventDefault();
+                    addFiles(fileList);
+                }
+            });
+            
+            // ============================================================
+            // INPUT AUTO RESIZE
+            // ============================================================
+            function autoResize() {
+                input.style.height = 'auto';
+                input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+            }
+            
+            input.addEventListener('input', function() {
+                autoResize();
+                updateSendButton();
+            });
+            
+            // ============================================================
+            // FILE TO BASE64 / TEXT
+            // ============================================================
+            function fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+            
+            function fileToText(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsText(file);
+                });
+            }
+            
+            // ============================================================
+            // 🔥 SEND TO GEMINI API
+            // ============================================================
+            async function sendMessage() {
+                const text = input.value.trim();
+                const hasFiles = state.files.length > 0;
+                
+                if (!text && !hasFiles) return;
+                if (state.processing) return;
+                
+                const userFiles = [...state.files];
+                addMessage('user', text || '(Uploaded file(s))', userFiles);
+                
+                input.value = '';
+                autoResize();
+                clearFiles();
+                updateSendButton();
+                
+                state.processing = true;
+                showTyping();
+                setStatus('Processing...', 'warning');
+                
+                try {
+                    const parts = [];
+                    
+                    if (text) parts.push({ text });
+                    
+                    for (const f of userFiles) {
+                        if (isImage(f)) {
+                            const base64 = await fileToBase64(f);
+                            parts.push({
+                                inline_data: {
+                                    mime_type: f.type,
+                                    data: base64.split(',')[1]
+                                }
+                            });
+                        } else {
+                            const content = await fileToText(f);
+                            parts.push({ text: `[File: ${f.name}]\n${content}` });
+                        }
+                    }
+                    
+                    const body = { contents: [{ parts }] };
+                    
+                    // Context from history (last 5)
+                    if (state.history.length > 0) {
+                        const recent = state.history.slice(-5);
+                        const context = recent.map(msg => ({
+                            role: msg.role === 'user' ? 'user' : 'model',
+                            parts: [{ text: msg.text || `(Uploaded: ${msg.files.join(', ')})` }]
+                        }));
+                        body.contents = [...context, ...body.contents];
+                    }
+                    
+                    const response = await fetch(`${CONFIG.API_URL}?key=${CONFIG.API_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.error?.message || 'API request failed');
+                    }
+                    
+                    const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text ||
+                        'Sorry, I could not process your request.';
+                    
+                    hideTyping();
+                    addMessage('ai', aiResponse);
+                    setStatus('Online', 'online');
+                    
+                } catch (error) {
+                    console.error('[Gemini Error]', error);
+                    hideTyping();
+                    addMessage('ai', `❌ **Error:** ${error.message}\n\nPlease check your API key and try again.`);
+                    setStatus('Offline', 'offline');
+                }
+                
+                state.processing = false;
+            }
+            
+            // ============================================================
+            // SEND EVENTS
+            // ============================================================
+            sendBtn.addEventListener('click', sendMessage);
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            // ============================================================
+            // PROMPT CHIPS
+            // ============================================================
+            chips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    input.value = this.dataset.prompt;
+                    autoResize();
+                    updateSendButton();
+                    input.focus();
+                });
+            });
+            
+            // ============================================================
+            // CLEAR CHAT
+            // ============================================================
+            clearBtn.addEventListener('click', function() {
+                if (state.history.length === 0) return;
+                if (confirm('Clear all conversation?')) {
+                    document.querySelectorAll('.message').forEach(el => el.remove());
+                    state.history = [];
+                    welcome.style.display = 'flex';
+                    chat.scrollTop = 0;
+                }
+            });
+            
+            // ============================================================
+            // KEYBOARD SHORTCUTS
+            // ============================================================
+            document.addEventListener('keydown', function(e) {
+                // Ctrl + / = Toggle theme
+                if (e.ctrlKey && e.key === '/') {
+                    e.preventDefault();
+                    themeBtn.click();
+                }
+                // Escape = Clear files
+                if (e.key === 'Escape' && state.files.length > 0) {
+                    clearFiles();
+                }
+            });
+            
+            // ============================================================
+            // INIT
+            // ============================================================
+            console.log('🚀 Gemini Pro initialized');
+            console.log(`📎 Supported formats: ${CONFIG.ALLOWED_TYPES.length} types`);
+            console.log(`📦 Max file size: ${formatSize(CONFIG.MAX_FILE_SIZE)}`);
+            console.log(`🔑 API Key: ${CONFIG.API_KEY ? '✅ Configured' : '❌ Missing'}`);
+            
+            if (!CONFIG.API_KEY || CONFIG.API_KEY === 'YOUR_GEMINI_API_KEY') {
+                setStatus('⚠️ No API Key', 'offline');
+            }
+            
+            // Global data (seperti WIZ_global_data di Gemini asli)
+            window.WIZ_global_data = {
+                user: user,
+                theme: state.theme ? 'dark' : 'light',
+                api: { configured: !!CONFIG.API_KEY },
+                features: {
+                    markdown: true,
+                    fileUpload: true,
+                    darkMode: true,
+                    history: true
+                }
+            };
+            
+            console.log('✅ Ready!');
+        })();
+    </script>
+</body>
+</html>
