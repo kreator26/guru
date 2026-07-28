@@ -717,3 +717,64 @@ section {
     font-size: 1.2rem;
   }
 }
+/* ===== VISITOR COUNTER ===== */
+.visitor-counter {
+  background: linear-gradient(135deg, var(--primary-light), #ffffff);
+  padding: 12px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 1;
+}
+
+.counter-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 24px;
+  background: var(--white);
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  font-size: 0.95rem;
+  color: var(--dark);
+  transition: var(--transition);
+}
+
+.counter-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(13, 110, 253, 0.12);
+}
+
+.counter-box i {
+  font-size: 1.3rem;
+  color: var(--primary);
+}
+
+.counter-box span {
+  font-weight: 500;
+}
+
+.counter-box .counter-number {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--primary);
+  min-width: 50px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Responsive Visitor Counter */
+@media (max-width: 576px) {
+  .counter-box {
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    gap: 8px;
+  }
+  .counter-box i {
+    font-size: 1rem;
+  }
+  .counter-box .counter-number {
+    font-size: 0.95rem;
+    min-width: 30px;
+  }
+}
